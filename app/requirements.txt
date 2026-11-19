@@ -1,0 +1,5 @@
+flask>=3.0,<4
+gunicorn>=22,<24
+xgboost-cpu>=2.1,<4
+pandas>=2.2,<4
+numpy>=1.26,<3

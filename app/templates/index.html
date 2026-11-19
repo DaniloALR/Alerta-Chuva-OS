@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AlertaChuva · {{ r.bairro if r else "Jardim Pantanal" }}</title>
+<style>
+  :root { --fundo:#f4f6f8; --texto:#1c2430; --suave:#5b6675; --borda:#dfe4ea;
+          --baixo:#2e7d4f; --atencao:#b7791f; --alto:#c0392b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--fundo); color:var(--texto); }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 20px 48px; }
+  header h1 { margin:0; font-size: 28px; }
+  header p { margin:4px 0 0; color:var(--suave); }
+  .cartao { background:#fff; border:1px solid var(--borda); border-radius:12px; padding:24px; margin-top:24px; }
+  .nivel { display:inline-block; padding:6px 14px; border-radius:999px; color:#fff; font-weight:700; letter-spacing:.5px; }
+  .BAIXO { background:var(--baixo); } .ATENÇÃO { background:var(--atencao); } .ALTO { background:var(--alto); }
+  .acao { font-size: 18px; line-height: 1.5; margin: 16px 0 0; }
+  dl { display:grid; grid-template-columns: max-content 1fr; gap:6px 16px; margin: 20px 0 0; color:var(--suave); }
+  dd { margin:0; color:var(--texto); }
+  form { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  input, button { font: inherit; padding:8px 12px; border-radius:8px; border:1px solid var(--borda); }
+  button { background:var(--texto); color:#fff; border:none; cursor:pointer; }
+  footer { margin-top:24px; font-size: 13px; color:var(--suave); }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>AlertaChuva</h1>
+    <p>Risco de chuva muito forte (≥ 20 mm) amanhã · {{ r.bairro if r else "Jardim Pantanal" }}, São Paulo</p>
+  </header>
+
+  <section class="cartao">
+    <form method="get" action="/">
+      <label for="data">Dia de referência</label>
+      <input id="data" type="date" name="data" value="{{ dia }}" min="{{ inicio }}" max="{{ fim }}">
+      <button type="submit">Consultar</button>
+    </form>
+  </section>
+
+  <section class="cartao">
+    {% if r %}
+      <span class="nivel {{ r.nivel }}">{{ r.nivel }}</span>
+      <p class="acao">{{ r.o_que_fazer }}</p>
+      <dl>
+        <dt>Previsão para</dt><dd>{{ r.previsao_para }}</dd>
+        <dt>Índice de risco</dt><dd>{{ "%.2f"|format(r.indice_risco) }} (0 a 1)</dd>
+        <dt>Chuva no dia de referência</dt><dd>{{ r.chuva_hoje_mm if r.chuva_hoje_mm is not none else "sem medição" }} mm</dd>
+        <dt>Chuva que de fato caiu</dt><dd>{{ r.chuva_observada_no_dia_seguinte_mm if r.chuva_observada_no_dia_seguinte_mm is not none else "sem medição" }} mm</dd>
+      </dl>
+    {% else %}
+      <p>Sem dados completos do INMET para {{ dia }}. Escolha outro dia entre {{ inicio }} e {{ fim }}.</p>
+    {% endif %}
+  </section>
+
+  <footer>
+    Modelo XGBoost treinado com dados reais do INMET (estação A701, Mirante de Santana) ·
+    API: <a href="/api/risco?data={{ dia }}">/api/risco</a> · <a href="/api/saude">/api/saude</a> ·
+    servidor {{ host }} · v{{ versao }}
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,15 @@
+[Unit]
+Description=AlertaChuva - IP fixo do servico na interface dedicada
+After=network.target
+Before=alertachuva.service nginx.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=@CONF_DIR@/rede.env
+ExecStart=@APP_DIR@/bin/rede.sh subir
+ExecStop=@APP_DIR@/bin/rede.sh descer
+SyslogIdentifier=alertachuva-rede
+
+[Install]
+WantedBy=multi-user.target

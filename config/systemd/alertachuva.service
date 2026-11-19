@@ -1,0 +1,28 @@
+[Unit]
+Description=AlertaChuva - API web de risco de chuva (Gunicorn + Flask)
+Documentation=file://@APP_DIR@/app/app.py
+After=network-online.target alertachuva-rede.service
+Wants=network-online.target alertachuva-rede.service
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=@APP_USUARIO@
+Group=@APP_USUARIO@
+WorkingDirectory=@APP_DIR@/app
+EnvironmentFile=@CONF_DIR@/alertachuva.env
+ExecStart=@APP_DIR@/venv/bin/gunicorn --workers ${ALERTACHUVA_WORKERS} --bind 127.0.0.1:${ALERTACHUVA_PORTA} --timeout 60 --access-logfile - --error-logfile - app:app
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3
+TimeoutStopSec=20
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=@LOG_DIR@/app
+SyslogIdentifier=alertachuva-api
+
+[Install]
+WantedBy=multi-user.target
