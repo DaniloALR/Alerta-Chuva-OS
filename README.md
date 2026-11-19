@@ -14,7 +14,7 @@ Ambiente escolhido: **WSL 2 com Ubuntu 22.04 ou 24.04 e systemd**. Os mesmos scr
         │  http://alertachuva.local  ·  http://10.20.30.10  ·  http://localhost
         ▼
  nginx.service ── proxy reverso :80 ──► alertachuva.service (Gunicorn :8000, usuário alertachuva)
-                                              │  Flask + modelo XGBoost (ml/modelo) + dados INMET A701
+                                              │  Flask + modelo XGBoost (modelo/) + dados INMET A701 (dados/)
  alertachuva-rede.service ── IP fixo 10.20.30.10/24 na interface citizen0
  alertachuva-monitor.service ── monitor.sh --continuo (usuário alertachuva-mon)
         │  CPU · memória · disco · saúde da API a cada 15 s
@@ -30,20 +30,31 @@ Ambiente escolhido: **WSL 2 com Ubuntu 22.04 ou 24.04 e systemd**. Os mesmos scr
    ```
 2. **Clonar o repositório dentro do Linux** (no Ubuntu, não em `/mnt/c`, para manter as permissões e as quebras de linha do Linux):
    ```bash
-   git clone https://github.com/<org>/alertachuva.git ~/alertachuva
-   cd ~/alertachuva
+   git clone https://github.com/DaniloALR/Alerta-Chuva-OS.git ~/Alerta-Chuva-OS
+   cd ~/Alerta-Chuva-OS
    ```
 3. **Provisionar** (instala, configura, sobe os serviços e roda a validação no final):
    ```bash
-   sudo bash so/scripts/provisionar.sh
+   sudo bash scripts/provisionar.sh
    ```
    Se o systemd ainda não estiver ligado no WSL, o script liga o systemd no `/etc/wsl.conf` e pede para reiniciar o WSL. Nesse caso, rode `wsl --shutdown` no PowerShell, abra o Ubuntu de novo e repita o comando.
 4. **Reiniciar uma vez** para o hostname `alertachuva-srv` valer em definitivo: `wsl --shutdown` no PowerShell e abra o Ubuntu (numa VM, `sudo reboot`). Os serviços sobem sozinhos.
 5. **Acessar**: `http://localhost` no navegador do Windows, ou `curl http://alertachuva.local/api/saude` no Ubuntu.
 
-Para recomeçar do zero: `sudo bash so/scripts/desinstalar.sh` e depois `sudo bash so/scripts/provisionar.sh`. Todos os scripts são idempotentes: rodar de novo não duplica configuração.
+Para recomeçar do zero: `sudo bash scripts/desinstalar.sh` e depois `sudo bash scripts/provisionar.sh`. Todos os scripts são idempotentes: rodar de novo não duplica configuração.
 
 Os parâmetros do ambiente (hostname, IP, DNS, usuários, diretórios, limites do monitor) ficam em [`config/infra.conf`](config/infra.conf).
+
+## Estrutura do repositório
+
+| Pasta | Conteúdo |
+|---|---|
+| [`scripts/`](scripts/) | Provisionamento, monitoramento, validação, testes de falha e evidências (Bash) |
+| [`config/`](config/) | Parâmetros da infraestrutura (`infra.conf`), unidades systemd e site do Nginx |
+| [`app/`](app/) | API AlertaChuva (Flask), página do morador e dependências Python |
+| [`modelo/`](modelo/) | Modelo XGBoost treinado na disciplina de IA & ML |
+| [`dados/`](dados/) | Série diária real do INMET (estação A701) usada pela API |
+| [`evidencias/`](evidencias/) | Saídas em texto, testes de falha e capturas de tela |
 
 ## O que cada script faz
 
@@ -133,9 +144,9 @@ A rotação semanal dos logs é feita pelo logrotate (`/etc/logrotate.d/alertach
 ## Testes de falha
 
 ```bash
-sudo bash so/scripts/testes_falha.sh todos            # monitor, api, cpu, memoria, disco, script
-sudo bash so/scripts/testes_falha.sh reinicio-antes   # depois: wsl --shutdown (PowerShell) e abrir o Ubuntu
-sudo bash so/scripts/testes_falha.sh reinicio-depois
+sudo bash scripts/testes_falha.sh todos            # monitor, api, cpu, memoria, disco, script
+sudo bash scripts/testes_falha.sh reinicio-antes   # depois: wsl --shutdown (PowerShell) e abrir o Ubuntu
+sudo bash scripts/testes_falha.sh reinicio-depois
 ```
 
 | Teste | O que acontece | O que comprova |
@@ -150,8 +161,8 @@ sudo bash so/scripts/testes_falha.sh reinicio-depois
 
 ## Evidências
 
-- **Texto:** `sudo bash so/scripts/coletar_evidencias.sh` gera `evidencias/01` a `07`, e os testes de falha salvam a saída em `evidencias/testes/`.
-- **Capturas de tela:** `bash so/scripts/capturar_telas.sh` (com o terminal maximizado) mostra cada evidência no terminal e fotografa a janela pelo próprio Windows, salvando em `evidencias/capturas/`. Detalhes em [`evidencias/README.md`](evidencias/README.md).
+- **Texto:** `sudo bash scripts/coletar_evidencias.sh` gera `evidencias/01` a `07`, e os testes de falha salvam a saída em `evidencias/testes/`.
+- **Capturas de tela:** `bash scripts/capturar_telas.sh` (com o terminal maximizado) mostra cada evidência no terminal e fotografa a janela pelo próprio Windows, salvando em `evidencias/capturas/`. Detalhes em [`evidencias/README.md`](evidencias/README.md).
 
 ### Provisionamento e validação
 

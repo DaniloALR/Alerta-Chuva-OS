@@ -10,10 +10,14 @@ exigir_root
 preparar_log_dir
 
 CSV="dados_A701_D_2006-07-24_2025-04-25.csv"
+MODELO_ORIGEM="$RAIZ/modelo"
+DADOS_ORIGEM="$RAIZ/dados"
+[[ -f "$MODELO_ORIGEM/xgb_alertachuva.json" ]] || MODELO_ORIGEM="$REPO/ml/modelo"
+[[ -f "$DADOS_ORIGEM/$CSV" ]] || DADOS_ORIGEM="$REPO/ml/dados/raw"
 
 verificar_origem() {
-    for f in "$RAIZ/app/app.py" "$RAIZ/app/requirements.txt" "$REPO/ml/modelo/xgb_alertachuva.json" \
-             "$REPO/ml/modelo/config.json" "$REPO/ml/dados/raw/$CSV"; do
+    for f in "$RAIZ/app/app.py" "$RAIZ/app/requirements.txt" "$MODELO_ORIGEM/xgb_alertachuva.json" \
+             "$MODELO_ORIGEM/config.json" "$DADOS_ORIGEM/$CSV"; do
         [[ -f "$f" ]] || { echo "arquivo ausente: $f"; return 1; }
         echo "ok: $f"
     done
@@ -40,8 +44,8 @@ copiar_aplicacao() {
     install -m 0640 -o root -g "$APP_USUARIO" "$RAIZ/app/app.py" "$RAIZ/app/requirements.txt" "$APP_DIR/app/"
     install -d -m 0750 -o root -g "$APP_USUARIO" "$APP_DIR/app/templates"
     install -m 0640 -o root -g "$APP_USUARIO" "$RAIZ/app/templates/index.html" "$APP_DIR/app/templates/"
-    install -m 0640 -o root -g "$APP_USUARIO" "$REPO/ml/modelo/xgb_alertachuva.json" "$REPO/ml/modelo/config.json" "$APP_DIR/modelo/"
-    install -m 0640 -o root -g "$APP_USUARIO" "$REPO/ml/dados/raw/$CSV" "$APP_DIR/dados/"
+    install -m 0640 -o root -g "$APP_USUARIO" "$MODELO_ORIGEM/xgb_alertachuva.json" "$MODELO_ORIGEM/config.json" "$APP_DIR/modelo/"
+    install -m 0640 -o root -g "$APP_USUARIO" "$DADOS_ORIGEM/$CSV" "$APP_DIR/dados/"
     install -m 0755 "$DIR/rede.sh" "$APP_DIR/bin/rede.sh"
     install -m 0750 -o root -g "$GRUPO_OPS" "$DIR/monitor.sh" "$APP_DIR/bin/monitor.sh"
     install -d -m 0755 "$APP_DIR/bin/lib"

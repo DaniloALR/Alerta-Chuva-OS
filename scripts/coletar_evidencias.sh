@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# AlertaChuva · gera evidências técnicas em texto dentro de so/evidencias/.
-# Uso: sudo bash so/scripts/coletar_evidencias.sh
+# AlertaChuva · gera evidências técnicas em texto dentro de evidencias/.
+# Uso: sudo bash scripts/coletar_evidencias.sh
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(dirname "$DIR")"
 source "$DIR/lib/comum.sh"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # AlertaChuva · remove tudo o que o provisionamento criou, para reproduzir o ambiente do zero.
-# Uso: sudo bash so/scripts/desinstalar.sh [--apagar-logs]
+# Uso: sudo bash scripts/desinstalar.sh [--apagar-logs]
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(dirname "$DIR")"
 source "$DIR/lib/comum.sh"

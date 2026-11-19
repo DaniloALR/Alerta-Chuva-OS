@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # AlertaChuva · confere se a infraestrutura está como o provisionamento definiu.
-# Uso: sudo bash so/scripts/validar.sh
+# Uso: sudo bash scripts/validar.sh
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(dirname "$DIR")"
 source "$DIR/lib/comum.sh"

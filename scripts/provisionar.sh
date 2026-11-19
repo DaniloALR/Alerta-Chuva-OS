@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # AlertaChuva · provisionamento completo e reproduzível do servidor Linux.
-# Uso: sudo bash so/scripts/provisionar.sh
+# Uso: sudo bash scripts/provisionar.sh
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(dirname "$DIR")"
 source "$DIR/lib/comum.sh"
@@ -36,7 +36,7 @@ if ! systemd_ativo; then
         rodar_etapa 01_pacotes
         rodar_etapa 02_rede
         log ALERTA "systemd foi habilitado no /etc/wsl.conf, mas só passa a valer depois de reiniciar o WSL."
-        log ALERTA "No PowerShell do Windows rode: wsl --shutdown   · depois abra o Ubuntu e execute de novo: sudo bash so/scripts/provisionar.sh"
+        log ALERTA "No PowerShell do Windows rode: wsl --shutdown   · depois abra o Ubuntu e execute de novo: sudo bash scripts/provisionar.sh"
         exit 0
     fi
     log ERRO "este servidor não usa systemd; a solução exige systemd para os serviços."

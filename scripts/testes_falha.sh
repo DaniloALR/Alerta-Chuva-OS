@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# AlertaChuva · testes de falha e recuperação. Cada teste salva sua evidência em so/evidencias/testes/.
-# Uso: sudo bash so/scripts/testes_falha.sh [monitor|api|cpu|memoria|disco|script|reinicio-antes|reinicio-depois|todos]
+# AlertaChuva · testes de falha e recuperação. Cada teste salva sua evidência em evidencias/testes/.
+# Uso: sudo bash scripts/testes_falha.sh [monitor|api|cpu|memoria|disco|script|reinicio-antes|reinicio-depois|todos]
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(dirname "$DIR")"
 source "$DIR/lib/comum.sh"
@@ -147,9 +147,9 @@ teste_reinicio_antes() {
     systemctl is-active alertachuva-rede alertachuva alertachuva-monitor nginx
     auditar "teste de falha: reinício (antes)" OK "boot_id salvo"
     if eh_wsl; then
-        echo "Agora, no PowerShell do Windows: wsl --shutdown  · abra o Ubuntu e rode: sudo bash so/scripts/testes_falha.sh reinicio-depois"
+        echo "Agora, no PowerShell do Windows: wsl --shutdown  · abra o Ubuntu e rode: sudo bash scripts/testes_falha.sh reinicio-depois"
     else
-        echo "Agora rode: sudo reboot  · depois: sudo bash so/scripts/testes_falha.sh reinicio-depois"
+        echo "Agora rode: sudo reboot  · depois: sudo bash scripts/testes_falha.sh reinicio-depois"
     fi
 }
 

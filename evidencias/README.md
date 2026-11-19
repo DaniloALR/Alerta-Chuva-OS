@@ -15,7 +15,7 @@ Evidências geradas no ambiente da equipe (WSL 2 com Ubuntu) pelos próprios scr
 
 ## Capturas de tela (pasta `capturas/`)
 
-Geradas por `bash so/scripts/capturar_telas.sh`, no WSL e com o terminal maximizado. O script mostra cada evidência no terminal e fotografa a janela com o próprio Windows (PowerShell), sem edição.
+Geradas por `bash scripts/capturar_telas.sh`, no WSL e com o terminal maximizado. O script mostra cada evidência no terminal e fotografa a janela com o próprio Windows (PowerShell), sem edição.
 
 | Arquivo | Tela |
 |---|---|

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # AlertaChuva · tira as capturas de tela das evidências automaticamente (WSL).
 # Mostra cada evidência no terminal e fotografa a janela ativa com o próprio Windows (PowerShell).
-# Uso (como usuário normal, com o terminal MAXIMIZADO): bash so/scripts/capturar_telas.sh
+# Uso (como usuário normal, com o terminal MAXIMIZADO): bash scripts/capturar_telas.sh
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(dirname "$DIR")"
 source "$DIR/lib/comum.sh"
@@ -63,7 +63,7 @@ tela() {
     printf '\e[1;36mAlertaChuva · %s\e[0m   \e[2m(%s · %s)\e[0m\n' "$titulo" "$(hostname)" "$(date '+%d/%m/%Y %H:%M:%S')"
     local cmd
     for cmd in "$@"; do
-        printf '\n\e[1;32m%s@%s\e[0m:\e[1;34m~/alertachuva\e[0m$ %s\n' "$(id -un)" "$(hostname)" "$cmd"
+        printf '\n\e[1;32m%s@%s\e[0m:\e[1;34m~/%s\e[0m$ %s\n' "$(id -un)" "$(hostname)" "$(basename "$RAIZ")" "$cmd"
         bash -c "$cmd"
     done
 }
@@ -74,7 +74,7 @@ sudo -v || exit 1
 ( while true; do sudo -n true; sleep 50; done ) 2>/dev/null &
 MANTER_SUDO=$!
 trap 'kill $MANTER_SUDO 2>/dev/null' EXIT
-cd "$RAIZ/.." || exit 1
+cd "$RAIZ" || exit 1
 sleep 3
 
 tela "Provisionamento" \
@@ -82,7 +82,7 @@ tela "Provisionamento" \
     "sudo grep -c '| OK |' ${LOG_DIR}/provisionamento.log"
 fotografar 01_provisionamento.png
 
-tela "Validação da infraestrutura" "sudo bash so/scripts/validar.sh 2>&1 | cut -d'|' -f4- | cut -c1-150"
+tela "Validação da infraestrutura" "sudo bash scripts/validar.sh 2>&1 | cut -d'|' -f4- | cut -c1-150"
 fotografar 02_validacao.png
 
 tela "Serviços systemd" \
@@ -102,13 +102,13 @@ tela "Monitoramento de CPU, memória e disco (durante stress-ng)" \
 fotografar 05_monitoramento.png
 wait "$STRESS"
 
-tela "Teste de falha · serviço de monitoramento" "sudo bash so/scripts/testes_falha.sh monitor 2>&1 | cut -c1-170"
+tela "Teste de falha · serviço de monitoramento" "sudo bash scripts/testes_falha.sh monitor 2>&1 | cut -c1-170"
 fotografar 06_falha_monitor.png
 
-tela "Teste de falha · API" "sudo bash so/scripts/testes_falha.sh api 2>&1 | grep -v '^evidência' | cut -c1-170"
+tela "Teste de falha · API" "sudo bash scripts/testes_falha.sh api 2>&1 | grep -v '^evidência' | cut -c1-170"
 fotografar 07_falha_api.png
 
-tela "Teste de reinicialização" "sudo bash so/scripts/testes_falha.sh reinicio-depois 2>&1 | grep -v '^evidência' | cut -c1-170"
+tela "Teste de reinicialização" "sudo bash scripts/testes_falha.sh reinicio-depois 2>&1 | grep -v '^evidência' | cut -c1-170"
 fotografar 08_reinicio.png
 
 tela "Logs e auditoria" \
@@ -125,8 +125,8 @@ fotografar 03_aplicacao.png
 
 echo
 echo "==== Resultado ===="
-[[ -f "$TMPW/alertachuva_capturas_ok.txt" ]] && echo "Capturas salvas em so/evidencias/capturas/: $(sort "$TMPW/alertachuva_capturas_ok.txt" | tr '\n' ' ')"
+[[ -f "$TMPW/alertachuva_capturas_ok.txt" ]] && echo "Capturas salvas em evidencias/capturas/: $(sort "$TMPW/alertachuva_capturas_ok.txt" | tr '\n' ' ')"
 [[ -f "$TMPW/alertachuva_capturas_falha.txt" ]] && echo "Falharam: $(tr '\n' ' ' < "$TMPW/alertachuva_capturas_falha.txt")"
 ls -l "$CAPT"/*.png 2>/dev/null
 echo
-echo "Confira as imagens no Explorer com:  cd ~/alertachuva/so/evidencias/capturas && explorer.exe ."
+echo "Confira as imagens no Explorer com:  cd $CAPT && explorer.exe ."

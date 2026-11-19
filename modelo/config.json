@@ -1,0 +1,30 @@
+{
+  "features": [
+    "chuva_hoje",
+    "chuva_3d",
+    "chuva_7d",
+    "chuva_15d",
+    "chuva_30d",
+    "dias_sem_chuva",
+    "temp",
+    "temp_var_1d",
+    "temp_anom_30d",
+    "umid",
+    "umid_var_1d",
+    "umid_3d",
+    "vento",
+    "vento_var_1d",
+    "sazon_sin",
+    "sazon_cos"
+  ],
+  "limiar_alto": 0.49,
+  "limiar_atencao": 0.24,
+  "alvo": "chuva D+1 >= 20 mm",
+  "estacao": "INMET A701",
+  "treino_ate": "2021-12-31",
+  "melhores_parametros": {
+    "learning_rate": 0.01,
+    "max_depth": 3,
+    "n_estimators": 300
+  }
+}
