@@ -116,14 +116,16 @@ PY
 }
 
 teste_disco() {
-    titulo "Simular disco acima do limite (limite reduzido para 1% só nesta verificação)"
-    local antes ok=0
+    local antes ok=0 uso limite
+    uso=$(df -P / | awk 'NR==2 { gsub("%","",$5); print $5 }')
+    limite=$(( uso > 0 ? uso - 1 : 0 ))
+    titulo "Simular disco acima do limite (uso atual de / = ${uso}%, limite reduzido para ${limite}% só nesta verificação)"
     antes=$(linhas "$LOG_DIR/alertas.log")
     df -h / "$LOG_DIR"
-    como_monitor DISCO_LIMITE=1
+    como_monitor DISCO_LIMITE="$limite"
     mostrar_novas "$LOG_DIR/alertas.log" "$antes"
     novas_linhas "$LOG_DIR/alertas.log" "$antes" | grep -q 'DISCO' && ok=1
-    resultado disco "$ok" "alerta de disco gerado com limite de teste de 1%"
+    resultado disco "$ok" "alerta de disco gerado com limite de teste de ${limite}%"
 }
 
 teste_script() {

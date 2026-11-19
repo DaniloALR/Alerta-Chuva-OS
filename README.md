@@ -155,7 +155,7 @@ sudo bash scripts/testes_falha.sh reinicio-depois
 | `api` | `kill -9` no Gunicorn e depois `systemctl stop` | A API volta sozinha; com o serviço parado, o monitor registra `API sem resposta` e, quando ele volta, registra a recuperação |
 | `cpu` | `stress-ng` em todos os núcleos por 45 s | O serviço gera `ALERTA CPU` e depois a normalização |
 | `memoria` | Ocupa a RAM até o limite + 8 pontos por 40 s | O serviço gera `ALERTA MEMÓRIA` |
-| `disco` | Verificação com o limite de disco reduzido para 1% | `ALERTA DISCO`, sem precisar encher o disco de verdade |
+| `disco` | Verificação com o limite de disco reduzido para 1 ponto abaixo do uso atual | `ALERTA DISCO`, sem precisar encher o disco de verdade |
 | `script` | `falha_controlada.sh` e o monitor com `CPU_LIMITE=abc` | O erro vai para `erros.log` e `auditoria.log` com a linha, o comando e o código |
 | `reinicio` | Reinício do WSL ou da VM | Boot novo (`boot_id` diferente) com os 4 serviços ativos e o IP fixo de volta, sem intervenção manual |
 

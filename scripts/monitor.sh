@@ -42,8 +42,8 @@ validar_config() {
     local nome valor
     for nome in CPU_LIMITE MEM_LIMITE DISCO_LIMITE; do
         valor="${!nome}"
-        if ! [[ "$valor" =~ ^[0-9]+$ ]] || (( valor < 1 || valor > 100 )); then
-            log ERRO "configuração inválida: ${nome}='${valor}' (esperado inteiro de 1 a 100)"
+        if ! [[ "$valor" =~ ^[0-9]+$ ]] || (( valor > 100 )); then
+            log ERRO "configuração inválida: ${nome}='${valor}' (esperado inteiro de 0 a 100)"
             auditar "validar configuração do monitor" FALHA "${nome}=${valor}"
             exit 2
         fi

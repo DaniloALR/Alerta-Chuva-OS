@@ -1,0 +1,12 @@
+
+==== Simular disco acima do limite (uso atual de / = 1%, limite reduzido para 0% só nesta verificação) ====
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdd       1007G  2.0G  954G   1% /
+/dev/sdd       1007G  2.0G  954G   1% /
+2026-11-18T22:44:43-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T22:44:43-0300 | alertachuva-srv | monitor.sh | ALERTA | DISCO / em 1% (limite 0%)
+2026-11-18T22:44:43-0300 | alertachuva-srv | monitor.sh | ALERTA | DISCO /var/log/alertachuva em 1% (limite 0%)
+--- novas linhas em /var/log/alertachuva/alertas.log
+2026-11-18T22:44:43-0300 | alertachuva-srv | monitor.sh | ALERTA | DISCO / em 1% (limite 0%)
+2026-11-18T22:44:43-0300 | alertachuva-srv | monitor.sh | ALERTA | DISCO /var/log/alertachuva em 1% (limite 0%)
+2026-11-18T22:44:43-0300 | alertachuva-srv | testes_falha.sh | OK | TESTE disco: PASSOU · alerta de disco gerado com limite de teste de 0%
