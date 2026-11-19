@@ -1,0 +1,17 @@
+
+==== Interromper o serviço de monitoramento (kill -9) e verificar a recuperação ====
+PID antes: 5342
+kill -9 5342 enviado às 20:41:23; aguardando o systemd (RestartSec=5)...
+PID depois: 6723 | estado: active | reinícios: 2
+Nov 18 20:41:17 alertachuva-srv alertachuva[6655]: monitor.sh: CPU em 89.4% (limite 80%)
+Nov 18 20:41:23 alertachuva-srv systemd[1]: alertachuva-monitor.service: Main process exited, code=killed, status=9/KILL
+Nov 18 20:41:23 alertachuva-srv systemd[1]: alertachuva-monitor.service: Failed with result 'signal'.
+Nov 18 20:41:28 alertachuva-srv systemd[1]: alertachuva-monitor.service: Scheduled restart job, restart counter is at 2.
+Nov 18 20:41:28 alertachuva-srv systemd[1]: Started alertachuva-monitor.service - AlertaChuva - monitor de CPU, memoria, disco e saude da API.
+Nov 18 20:41:28 alertachuva-srv alertachuva-monitor[6723]: 2026-11-18T20:41:28-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 6723, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+Nov 18 20:41:29 alertachuva-srv alertachuva-monitor[6723]: 2026-11-18T20:41:29-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.2% mem=8.7% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 20:41:29 alertachuva-srv alertachuva-monitor[6723]: 2026-11-18T20:41:29-0300 | alertachuva-srv | monitor.sh | OK | CPU normalizada em 0.2%
+2026-11-18T20:41:28-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 6723, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+2026-11-18T20:41:29-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.2% mem=8.7% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:41:29-0300 | alertachuva-srv | monitor.sh | OK | CPU normalizada em 0.2%
+2026-11-18T20:41:32-0300 | alertachuva-srv | testes_falha.sh | OK | TESTE monitor: PASSOU · pid 5342 -> 6723

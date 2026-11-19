@@ -1,0 +1,169 @@
+# AlertaChuva · evidência gerada em 2026-11-18 20:02:06 -0300 no host alertachuva-srv
+
+$ systemctl list-unit-files 'alertachuva*' nginx.service --no-pager
+UNIT FILE                   STATE   PRESET
+alertachuva-monitor.service enabled enabled
+alertachuva-rede.service    enabled enabled
+alertachuva.service         enabled enabled
+nginx.service               enabled enabled
+
+4 unit files listed.
+
+$ systemctl status alertachuva-rede alertachuva alertachuva-monitor nginx --no-pager -n 5
+● alertachuva-rede.service - AlertaChuva - IP fixo do servico na interface dedicada
+     Loaded: loaded (/etc/systemd/system/alertachuva-rede.service; enabled; preset: enabled)
+     Active: active (exited) since Wed 2026-11-18 20:01:03 -03; 1min 3s ago
+    Process: 174 ExecStart=/opt/alertachuva/bin/rede.sh subir (code=exited, status=0/SUCCESS)
+   Main PID: 174 (code=exited, status=0/SUCCESS)
+        CPU: 40ms
+
+Nov 18 20:00:56 alertachuva-srv systemd[1]: Starting alertachuva-rede.service - AlertaChuva - IP fixo do servico na interface dedicada...
+Nov 18 20:01:02 alertachuva-srv alertachuva-rede[174]: IP 10.20.30.10/24 ativo em citizen0
+Nov 18 20:01:03 alertachuva-srv systemd[1]: Finished alertachuva-rede.service - AlertaChuva - IP fixo do servico na interface dedicada.
+
+● alertachuva.service - AlertaChuva - API web de risco de chuva (Gunicorn + Flask)
+     Loaded: loaded (/etc/systemd/system/alertachuva.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-18 20:01:03 -03; 1min 3s ago
+       Docs: file:///opt/alertachuva/app/app.py
+   Main PID: 203 (gunicorn)
+      Tasks: 69 (limit: 9452)
+     Memory: 291.0M (peak: 292.8M)
+        CPU: 3.733s
+     CGroup: /system.slice/alertachuva.service
+             ├─203 /opt/alertachuva/venv/bin/python3 /opt/alertachuva/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --timeout 60 --access-logfile - --error-logfile - app:app
+             ├─320 /opt/alertachuva/venv/bin/python3 /opt/alertachuva/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --timeout 60 --access-logfile - --error-logfile - app:app
+             └─322 /opt/alertachuva/venv/bin/python3 /opt/alertachuva/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --timeout 60 --access-logfile - --error-logfile - app:app
+
+Nov 18 20:01:24 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:24 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+Nov 18 20:01:40 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:01:40 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:40 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+Nov 18 20:01:56 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:01:56 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:56 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+
+● alertachuva-monitor.service - AlertaChuva - monitor de CPU, memoria, disco e saude da API
+     Loaded: loaded (/etc/systemd/system/alertachuva-monitor.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-18 20:01:03 -03; 1min 3s ago
+   Main PID: 205 (bash)
+      Tasks: 2 (limit: 9452)
+     Memory: 13.8M (peak: 16.5M)
+        CPU: 215ms
+     CGroup: /system.slice/alertachuva-monitor.service
+             ├─205 bash /opt/alertachuva/bin/monitor.sh --continuo
+             └─726 sleep 15
+
+Nov 18 20:01:08 alertachuva-srv alertachuva[462]: monitor.sh: API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: active)
+Nov 18 20:01:24 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:24-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.9% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 20:01:24 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:24-0300 | alertachuva-srv | monitor.sh | OK | API voltou a responder
+Nov 18 20:01:40 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:40-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 20:01:56 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:56-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-18 20:01:03 -03; 1min 3s ago
+       Docs: man:nginx(8)
+    Process: 206 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 260 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+   Main PID: 263 (nginx)
+      Tasks: 13 (limit: 9452)
+     Memory: 10.5M (peak: 11.8M)
+        CPU: 39ms
+     CGroup: /system.slice/nginx.service
+             ├─263 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─264 "nginx: worker process"
+             ├─265 "nginx: worker process"
+             ├─266 "nginx: worker process"
+             ├─268 "nginx: worker process"
+             ├─269 "nginx: worker process"
+             ├─270 "nginx: worker process"
+             ├─271 "nginx: worker process"
+             ├─272 "nginx: worker process"
+             ├─273 "nginx: worker process"
+             ├─274 "nginx: worker process"
+             ├─275 "nginx: worker process"
+             └─276 "nginx: worker process"
+
+Nov 18 20:01:03 alertachuva-srv systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+Nov 18 20:01:03 alertachuva-srv systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server.
+
+$ systemctl show alertachuva-monitor -p Restart -p RestartUSec -p NRestarts -p User -p MainPID
+Restart=always
+RestartUSec=5s
+MainPID=205
+NRestarts=0
+User=alertachuva-mon
+
+$ systemctl show alertachuva -p Restart -p NRestarts -p User -p MainPID
+Restart=always
+MainPID=203
+NRestarts=0
+User=alertachuva
+
+$ cat /etc/systemd/system/alertachuva.service /etc/systemd/system/alertachuva-monitor.service /etc/systemd/system/alertachuva-rede.service
+[Unit]
+Description=AlertaChuva - API web de risco de chuva (Gunicorn + Flask)
+Documentation=file:///opt/alertachuva/app/app.py
+After=network-online.target alertachuva-rede.service
+Wants=network-online.target alertachuva-rede.service
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=alertachuva
+Group=alertachuva
+WorkingDirectory=/opt/alertachuva/app
+EnvironmentFile=/etc/alertachuva/alertachuva.env
+ExecStart=/opt/alertachuva/venv/bin/gunicorn --workers ${ALERTACHUVA_WORKERS} --bind 127.0.0.1:${ALERTACHUVA_PORTA} --timeout 60 --access-logfile - --error-logfile - app:app
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3
+TimeoutStopSec=20
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/log/alertachuva/app
+SyslogIdentifier=alertachuva-api
+
+[Install]
+WantedBy=multi-user.target
+[Unit]
+Description=AlertaChuva - monitor de CPU, memoria, disco e saude da API
+After=network-online.target alertachuva.service
+Wants=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=alertachuva-mon
+Group=alertachuva-ops
+EnvironmentFile=/etc/alertachuva/monitor.env
+ExecStart=/opt/alertachuva/bin/monitor.sh --continuo
+Restart=always
+RestartSec=5
+TimeoutStopSec=10
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/log/alertachuva /var/lib/alertachuva
+SyslogIdentifier=alertachuva-monitor
+
+[Install]
+WantedBy=multi-user.target
+[Unit]
+Description=AlertaChuva - IP fixo do servico na interface dedicada
+After=network.target
+Before=alertachuva.service nginx.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/alertachuva/rede.env
+ExecStart=/opt/alertachuva/bin/rede.sh subir
+ExecStop=/opt/alertachuva/bin/rede.sh descer
+SyslogIdentifier=alertachuva-rede
+
+[Install]
+WantedBy=multi-user.target

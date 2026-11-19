@@ -1,0 +1,8 @@
+
+==== Preparar teste de reinicialização ====
+boot atual: ca1e4a18-f799-4b09-9d77-86f24cd4f403 | uptime: up 8 minutes
+active
+active
+active
+active
+Agora, no PowerShell do Windows: wsl --shutdown  · abra o Ubuntu e rode: sudo bash so/scripts/testes_falha.sh reinicio-depois

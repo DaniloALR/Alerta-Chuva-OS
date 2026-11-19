@@ -1,0 +1,58 @@
+# AlertaChuva · evidência gerada em 2026-11-18 20:02:06 -0300 no host alertachuva-srv
+
+$ curl --noproxy '*' -sS http://alertachuva.local/api/saude | jq .
+{
+  "dias_disponiveis": 6369,
+  "host": "alertachuva-srv",
+  "modelo": "INMET A701",
+  "pid": 322,
+  "servico": "alertachuva-api",
+  "status": "ok",
+  "uptime_s": 57.3,
+  "versao": "1.0.0"
+}
+
+$ curl --noproxy '*' -sS http://alertachuva.local/api/info | jq .
+{
+  "alvo": "chuva D+1 >= 20 mm",
+  "bairro": "Jardim Pantanal",
+  "estacao": "INMET A701",
+  "limiares": {
+    "alto": 0.49,
+    "atencao": 0.24
+  },
+  "periodo": {
+    "fim": "2025-04-25",
+    "inicio": "2006-08-24"
+  },
+  "treino_ate": "2021-12-31"
+}
+
+$ curl --noproxy '*' -sS 'http://10.20.30.10/api/risco?data=2025-01-24' | jq .
+{
+  "bairro": "Jardim Pantanal",
+  "chuva_hoje_mm": 0.0,
+  "chuva_observada_no_dia_seguinte_mm": 125.6,
+  "data_base": "2025-01-24",
+  "indice_risco": 0.841,
+  "nivel": "ALTO",
+  "o_que_fazer": "Risco alto de chuva muito forte amanhã: suba documentos, remédios e eletrônicos, combine com vizinhos a ajuda a quem tem mobilidade reduzida e acompanhe a Defesa Civil (199).",
+  "previsao_para": "2025-01-25"
+}
+
+$ curl --noproxy '*' -sS -o /dev/null -w 'página do morador: HTTP %{http_code} em %{time_total}s\n' http://localhost/
+página do morador: HTTP 200 em 0.013418s
+
+$ curl --noproxy '*' -sS -I http://alertachuva.local/ | head -8
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 18 Nov 2026 23:02:06 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 2867
+Connection: keep-alive
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+$ ss -ltnp | grep -E ':80 |:8000 '
+LISTEN 0      511           0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=276,fd=7),("nginx",pid=275,fd=7),("nginx",pid=274,fd=7),("nginx",pid=273,fd=7),("nginx",pid=272,fd=7),("nginx",pid=271,fd=7),("nginx",pid=270,fd=7),("nginx",pid=269,fd=7),("nginx",pid=268,fd=7),("nginx",pid=266,fd=7),("nginx",pid=265,fd=7),("nginx",pid=264,fd=7),("nginx",pid=263,fd=7))
+LISTEN 0      1024        127.0.0.1:8000      0.0.0.0:*    users:(("gunicorn",pid=322,fd=5),("gunicorn",pid=320,fd=5),("gunicorn",pid=203,fd=5))                                                                                                                                                                                                                             

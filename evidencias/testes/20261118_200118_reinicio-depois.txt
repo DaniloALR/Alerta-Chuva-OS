@@ -1,0 +1,17 @@
+
+==== Verificar serviços após a reinicialização ====
+boot antes: ca1e4a18-f799-4b09-9d77-86f24cd4f403
+boot agora: db80fc82-c40e-4490-9c05-fee4df496afb | uptime: up 0 minutes | hostname: alertachuva-srv
+active
+active
+active
+active
+citizen0         UNKNOWN        10.20.30.10/24 fe80::4cf9:3dff:fef4:509e/64 
+{"dias_disponiveis":6369,"host":"alertachuva-srv","modelo":"INMET A701","pid":322,"servico":"alertachuva-api","status":"ok","uptime_s":9.2,"versao":"1.0.0"}
+
+ -2 2af1a34e40d745abbb859351208191fc Wed 2026-11-18 19:45:08 -03 Wed 2026-11-18 19:51:18 -03
+ -1 ca1e4a18f7994b099d7786f24cd4f403 Wed 2026-11-18 19:51:27 -03 Wed 2026-11-18 20:00:37 -03
+  0 db80fc82c40e44909c05fee4df496afb Wed 2026-11-18 20:00:56 -03 Wed 2026-11-18 20:01:18 -03
+2026-11-18T19:55:04-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 1146, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+2026-11-18T20:01:03-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 205, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+2026-11-18T20:01:18-0300 | alertachuva-srv | testes_falha.sh | OK | TESTE reinicio: PASSOU · novo boot e serviços iniciados automaticamente

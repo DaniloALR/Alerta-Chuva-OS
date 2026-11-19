@@ -1,0 +1,12 @@
+
+==== Provocar falhas controladas em scripts e verificar o registro do erro ====
+2026-11-18T19:57:02-0300 | alertachuva-srv | falha_controlada.sh | INFO | simulando falha: leitura de /etc/alertachuva/inexistente.conf
+cp: cannot stat '/etc/alertachuva/inexistente.conf': No such file or directory
+2026-11-18T19:57:02-0300 | alertachuva-srv | falha_controlada.sh | ERRO | falha não tratada na linha 14 (código 1): cp "${CONF_DIR}/inexistente.conf" /tmp/alertachuva_teste.conf
+falha_controlada.sh terminou com código 1
+2026-11-18T19:57:02-0300 | alertachuva-srv | monitor.sh | ERRO | configuração inválida: CPU_LIMITE='abc' (esperado inteiro de 1 a 100)
+monitor com CPU_LIMITE=abc terminou com código 2
+--- novas linhas em /var/log/alertachuva/erros.log
+2026-11-18T19:57:02-0300 | alertachuva-srv | falha_controlada.sh | ERRO | falha não tratada na linha 14 (código 1): cp "${CONF_DIR}/inexistente.conf" /tmp/alertachuva_teste.conf
+2026-11-18T19:57:02-0300 | alertachuva-srv | monitor.sh | ERRO | configuração inválida: CPU_LIMITE='abc' (esperado inteiro de 1 a 100)
+2026-11-18T19:57:02-0300 | alertachuva-srv | testes_falha.sh | OK | TESTE script: PASSOU · erros capturados com linha, comando e código

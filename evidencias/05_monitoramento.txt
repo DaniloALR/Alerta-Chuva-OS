@@ -1,0 +1,53 @@
+# AlertaChuva · evidência gerada em 2026-11-18 20:02:06 -0300 no host alertachuva-srv
+
+$ runuser -u alertachuva-mon -- /opt/alertachuva/bin/monitor.sh --uma-vez; echo "código: $?"
+2026-11-18T20:02:07-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+código: 0
+
+$ tail -n 20 /var/log/alertachuva/monitor.log
+2026-11-18T19:57:40-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:57:59-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:58:15-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:58:34-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.2% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:58:50-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:59:09-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:59:25-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:59:44-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:00:00-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:00:19-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:00:35-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:00:36-0300 | alertachuva-srv | monitor.sh | INFO | monitor parado pelo sinal TERM (pid 1146)
+2026-11-18T20:01:03-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 205, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+2026-11-18T20:01:08-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=6.8% mem=7.7% disco[/]=1% disco[/var/log/alertachuva]=1% api=falha
+2026-11-18T20:01:08-0300 | alertachuva-srv | monitor.sh | ERRO | API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: active)
+2026-11-18T20:01:24-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.9% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:01:24-0300 | alertachuva-srv | monitor.sh | OK | API voltou a responder
+2026-11-18T20:01:40-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:01:56-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:02:07-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+
+$ tail -n 20 /var/log/alertachuva/alertas.log
+2026-11-18T19:55:15-0300 | alertachuva-srv | monitor.sh | ALERTA | API fora do ar
+2026-11-18T19:55:21-0300 | alertachuva-srv | monitor.sh | ALERTA | CPU em 91.9% (limite 80%)
+2026-11-18T19:55:42-0300 | alertachuva-srv | monitor.sh | ALERTA | CPU em 97.4% (limite 80%)
+2026-11-18T19:55:58-0300 | alertachuva-srv | monitor.sh | ALERTA | CPU em 99.8% (limite 80%)
+2026-11-18T19:56:31-0300 | alertachuva-srv | monitor.sh | ALERTA | MEMÓRIA em 88.4% (limite 80%)
+2026-11-18T19:56:49-0300 | alertachuva-srv | monitor.sh | ALERTA | MEMÓRIA em 88.2% (limite 80%)
+2026-11-18T20:01:08-0300 | alertachuva-srv | monitor.sh | ALERTA | API fora do ar
+
+$ tail -n 15 /var/log/alertachuva/metricas.csv
+2026-11-18T19:57:59-0300,0.1,8.5,1,ok
+2026-11-18T19:58:15-0300,0.1,8.4,1,ok
+2026-11-18T19:58:34-0300,0.2,8.4,1,ok
+2026-11-18T19:58:50-0300,0.1,8.4,1,ok
+2026-11-18T19:59:09-0300,0.0,8.4,1,ok
+2026-11-18T19:59:25-0300,0.0,8.4,1,ok
+2026-11-18T19:59:44-0300,0.0,8.4,1,ok
+2026-11-18T20:00:00-0300,0.1,8.5,1,ok
+2026-11-18T20:00:19-0300,0.1,8.5,1,ok
+2026-11-18T20:00:35-0300,0.1,8.4,1,ok
+2026-11-18T20:01:08-0300,6.8,7.7,1,falha
+2026-11-18T20:01:24-0300,0.0,8.9,1,ok
+2026-11-18T20:01:40-0300,0.1,8.3,1,ok
+2026-11-18T20:01:56-0300,0.0,8.4,1,ok
+2026-11-18T20:02:07-0300,0.0,8.5,1,ok

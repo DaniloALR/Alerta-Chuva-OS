@@ -1,0 +1,178 @@
+# AlertaChuva · evidência gerada em 2026-11-18 20:02:07 -0300 no host alertachuva-srv
+
+$ ls -l /var/log/alertachuva /var/log/alertachuva/app
+/var/log/alertachuva:
+total 80
+-rw-rw---- 1 root        alertachuva-ops   639 Nov 18 20:01 alertas.log
+drwxr-s--- 2 alertachuva alertachuva-ops  4096 Nov 18 19:50 app
+-rw-rw---- 1 root        alertachuva-ops  6627 Nov 18 20:01 auditoria.log
+-rw-rw---- 1 root        alertachuva-ops   763 Nov 18 20:01 erros.log
+-rw-rw---- 1 root        alertachuva-ops  1726 Nov 18 20:02 metricas.csv
+-rw-rw---- 1 root        alertachuva-ops  8528 Nov 18 20:02 monitor.log
+-rw-rw---- 1 root        alertachuva-ops 30922 Nov 18 19:50 provisionamento.log
+-rw-r--r-- 1 root        alertachuva-ops  1290 Nov 18 20:01 testes.log
+-rw-r--r-- 1 root        alertachuva-ops  7937 Nov 18 19:52 validacao.log
+
+/var/log/alertachuva/app:
+total 8
+-rw-r--r-- 1 alertachuva alertachuva-ops 5123 Nov 18 20:02 app.log
+
+$ tail -n 40 /var/log/alertachuva/auditoria.log
+2026-11-18T19:50:09-0300 | alertachuva-srv | usuario=danilo | 02_rede.sh | aplicar parâmetros de rede (sysctl) | OK | 0s
+2026-11-18T19:50:10-0300 | alertachuva-srv | usuario=danilo | 02_rede.sh | configurar DNS (1.1.1.1 8.8.8.8) | OK | 1s
+2026-11-18T19:50:10-0300 | alertachuva-srv | usuario=danilo | 02_rede.sh | testar resolução de nomes | OK | 0s
+2026-11-18T19:50:10-0300 | alertachuva-srv | usuario=danilo | provisionar.sh | etapa 02_rede | OK | 2s
+2026-11-18T19:50:10-0300 | alertachuva-srv | usuario=danilo | 03_usuarios.sh | criar grupos alertachuva-ops e alertachuva | OK | 0s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | 03_usuarios.sh | criar usuários de serviço alertachuva e alertachuva-mon (sem login) | OK | 1s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | 03_usuarios.sh | criar usuário operador e incluir operadores no grupo alertachuva-ops | OK | 0s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | 03_usuarios.sh | configurar sudo restrito para alertachuva-ops | OK | 0s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | provisionar.sh | etapa 03_usuarios | OK | 1s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | 04_aplicacao.sh | verificar arquivos de origem (API, modelo e dados INMET) | OK | 0s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | 04_aplicacao.sh | criar diretórios e definir donos/permissões | OK | 0s
+2026-11-18T19:50:11-0300 | alertachuva-srv | usuario=danilo | 04_aplicacao.sh | copiar API, modelo, dados e scripts para /opt/alertachuva | OK | 0s
+2026-11-18T19:50:28-0300 | alertachuva-srv | usuario=danilo | 04_aplicacao.sh | criar ambiente Python e instalar dependências | OK | 17s
+2026-11-18T19:50:28-0300 | alertachuva-srv | usuario=danilo | 04_aplicacao.sh | gerar variáveis de ambiente em /etc/alertachuva | OK | 0s
+2026-11-18T19:50:28-0300 | alertachuva-srv | usuario=danilo | 04_aplicacao.sh | configurar rotação de logs (logrotate) | OK | 0s
+2026-11-18T19:50:28-0300 | alertachuva-srv | usuario=danilo | provisionar.sh | etapa 04_aplicacao | OK | 17s
+2026-11-18T19:50:28-0300 | alertachuva-srv | usuario=danilo | 05_servicos.sh | instalar unidades systemd: alertachuva-rede.service alertachuva.service alertachuva-monitor.service | OK | 0s
+2026-11-18T19:50:28-0300 | alertachuva-srv | usuario=danilo | 05_servicos.sh | configurar Nginx como proxy reverso para alertachuva.local | OK | 0s
+2026-11-18T19:50:29-0300 | alertachuva-srv | usuario=danilo | 05_servicos.sh | habilitar inicialização automática e iniciar serviços | OK | 1s
+2026-11-18T19:50:29-0300 | alertachuva-srv | usuario=alertachuva-mon | monitor.sh | iniciar monitor | OK | pid=7803
+2026-11-18T19:50:33-0300 | alertachuva-srv | usuario=danilo | 05_servicos.sh | aguardar a API responder em http://alertachuva.local/api/saude | OK | 4s
+2026-11-18T19:50:33-0300 | alertachuva-srv | usuario=danilo | provisionar.sh | etapa 05_servicos | OK | 5s
+2026-11-18T19:50:33-0300 | alertachuva-srv | usuario=danilo | provisionar.sh | concluir provisionamento | OK | 57s
+2026-11-18T19:50:33-0300 | alertachuva-srv | usuario=danilo | validar.sh | validar infraestrutura | OK | 25/25
+2026-11-18T19:51:17-0300 | alertachuva-srv | usuario=alertachuva-mon | monitor.sh | parar monitor | OK | sinal=TERM
+2026-11-18T19:51:34-0300 | alertachuva-srv | usuario=alertachuva-mon | monitor.sh | iniciar monitor | OK | pid=207
+2026-11-18T19:52:07-0300 | alertachuva-srv | usuario=danilo | validar.sh | validar infraestrutura | OK | 25/25
+2026-11-18T19:55:04-0300 | alertachuva-srv | usuario=alertachuva-mon | monitor.sh | iniciar monitor | OK | pid=1146
+2026-11-18T19:55:08-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: monitor | OK | pid 207 -> 1146
+2026-11-18T19:55:17-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: api | OK | pid 206 -> 1209; parada detectada e serviço retomado
+2026-11-18T19:56:10-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: cpu | OK | alertas de CPU gerados pelo serviço de monitoramento
+2026-11-18T19:57:01-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: memoria | OK | alertas de memória gerados pelo serviço de monitoramento
+2026-11-18T19:57:02-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: disco | FALHA | alerta de disco gerado com limite de teste de 1%
+2026-11-18T19:57:02-0300 | alertachuva-srv | usuario=danilo | falha_controlada.sh | execução de falha_controlada.sh | FALHA | linha=14 codigo=1
+2026-11-18T19:57:02-0300 | alertachuva-srv | usuario=danilo | monitor.sh | validar configuração do monitor | FALHA | CPU_LIMITE=abc
+2026-11-18T19:57:02-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: script | OK | erros capturados com linha, comando e código
+2026-11-18T20:00:22-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: reinício (antes) | OK | boot_id salvo
+2026-11-18T20:00:36-0300 | alertachuva-srv | usuario=alertachuva-mon | monitor.sh | parar monitor | OK | sinal=TERM
+2026-11-18T20:01:03-0300 | alertachuva-srv | usuario=alertachuva-mon | monitor.sh | iniciar monitor | OK | pid=205
+2026-11-18T20:01:18-0300 | alertachuva-srv | usuario=danilo | testes_falha.sh | teste de falha: reinicio | OK | novo boot e serviços iniciados automaticamente
+
+$ grep -E 'INÍCIO|OK|ERRO' /var/log/alertachuva/provisionamento.log | tail -n 40
+2026-11-18T19:50:09-0300 | alertachuva-srv | 02_rede.sh | INFO | INÍCIO: aplicar parâmetros de rede (sysctl)
+2026-11-18T19:50:09-0300 | alertachuva-srv | 02_rede.sh | OK | aplicar parâmetros de rede (sysctl) (0s)
+2026-11-18T19:50:09-0300 | alertachuva-srv | 02_rede.sh | INFO | INÍCIO: configurar DNS (1.1.1.1 8.8.8.8)
+2026-11-18T19:50:10-0300 | alertachuva-srv | 02_rede.sh | OK | configurar DNS (1.1.1.1 8.8.8.8) (1s)
+2026-11-18T19:50:10-0300 | alertachuva-srv | 02_rede.sh | INFO | INÍCIO: testar resolução de nomes
+2026-11-18T19:50:10-0300 | alertachuva-srv | 02_rede.sh | OK | testar resolução de nomes (0s)
+2026-11-18T19:50:10-0300 | alertachuva-srv | provisionar.sh | OK | etapa 02_rede concluída (2s)
+2026-11-18T19:50:10-0300 | alertachuva-srv | 03_usuarios.sh | INFO | INÍCIO: criar grupos alertachuva-ops e alertachuva
+2026-11-18T19:50:10-0300 | alertachuva-srv | 03_usuarios.sh | OK | criar grupos alertachuva-ops e alertachuva (0s)
+2026-11-18T19:50:10-0300 | alertachuva-srv | 03_usuarios.sh | INFO | INÍCIO: criar usuários de serviço alertachuva e alertachuva-mon (sem login)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 03_usuarios.sh | OK | criar usuários de serviço alertachuva e alertachuva-mon (sem login) (1s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 03_usuarios.sh | INFO | INÍCIO: criar usuário operador e incluir operadores no grupo alertachuva-ops
+2026-11-18T19:50:11-0300 | alertachuva-srv | 03_usuarios.sh | OK | criar usuário operador e incluir operadores no grupo alertachuva-ops (0s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 03_usuarios.sh | INFO | INÍCIO: configurar sudo restrito para alertachuva-ops
+        > /tmp/tmp.NZNGerGJgm: parsed OK
+2026-11-18T19:50:11-0300 | alertachuva-srv | 03_usuarios.sh | OK | configurar sudo restrito para alertachuva-ops (0s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | provisionar.sh | OK | etapa 03_usuarios concluída (1s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | INFO | INÍCIO: verificar arquivos de origem (API, modelo e dados INMET)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | OK | verificar arquivos de origem (API, modelo e dados INMET) (0s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | INFO | INÍCIO: criar diretórios e definir donos/permissões
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | OK | criar diretórios e definir donos/permissões (0s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | INFO | INÍCIO: copiar API, modelo, dados e scripts para /opt/alertachuva
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | OK | copiar API, modelo, dados e scripts para /opt/alertachuva (0s)
+2026-11-18T19:50:11-0300 | alertachuva-srv | 04_aplicacao.sh | INFO | INÍCIO: criar ambiente Python e instalar dependências
+2026-11-18T19:50:28-0300 | alertachuva-srv | 04_aplicacao.sh | OK | criar ambiente Python e instalar dependências (17s)
+2026-11-18T19:50:28-0300 | alertachuva-srv | 04_aplicacao.sh | INFO | INÍCIO: gerar variáveis de ambiente em /etc/alertachuva
+2026-11-18T19:50:28-0300 | alertachuva-srv | 04_aplicacao.sh | OK | gerar variáveis de ambiente em /etc/alertachuva (0s)
+2026-11-18T19:50:28-0300 | alertachuva-srv | 04_aplicacao.sh | INFO | INÍCIO: configurar rotação de logs (logrotate)
+2026-11-18T19:50:28-0300 | alertachuva-srv | 04_aplicacao.sh | OK | configurar rotação de logs (logrotate) (0s)
+2026-11-18T19:50:28-0300 | alertachuva-srv | provisionar.sh | OK | etapa 04_aplicacao concluída (17s)
+2026-11-18T19:50:28-0300 | alertachuva-srv | 05_servicos.sh | INFO | INÍCIO: instalar unidades systemd: alertachuva-rede.service alertachuva.service alertachuva-monitor.service
+2026-11-18T19:50:28-0300 | alertachuva-srv | 05_servicos.sh | OK | instalar unidades systemd: alertachuva-rede.service alertachuva.service alertachuva-monitor.service (0s)
+2026-11-18T19:50:28-0300 | alertachuva-srv | 05_servicos.sh | INFO | INÍCIO: configurar Nginx como proxy reverso para alertachuva.local
+2026-11-18T19:50:28-0300 | alertachuva-srv | 05_servicos.sh | OK | configurar Nginx como proxy reverso para alertachuva.local (0s)
+2026-11-18T19:50:28-0300 | alertachuva-srv | 05_servicos.sh | INFO | INÍCIO: habilitar inicialização automática e iniciar serviços
+2026-11-18T19:50:29-0300 | alertachuva-srv | 05_servicos.sh | OK | habilitar inicialização automática e iniciar serviços (1s)
+2026-11-18T19:50:29-0300 | alertachuva-srv | 05_servicos.sh | INFO | INÍCIO: aguardar a API responder em http://alertachuva.local/api/saude
+2026-11-18T19:50:33-0300 | alertachuva-srv | 05_servicos.sh | OK | aguardar a API responder em http://alertachuva.local/api/saude (4s)
+2026-11-18T19:50:33-0300 | alertachuva-srv | provisionar.sh | OK | etapa 05_servicos concluída (5s)
+2026-11-18T19:50:33-0300 | alertachuva-srv | provisionar.sh | OK | provisionamento concluído em 57s
+
+$ tail -n 20 /var/log/alertachuva/erros.log
+2026-11-18T19:55:15-0300 | alertachuva-srv | monitor.sh | ERRO | API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: inactive)
+2026-11-18T19:57:02-0300 | alertachuva-srv | testes_falha.sh | ERRO | TESTE disco: NÃO PASSOU · alerta de disco gerado com limite de teste de 1%
+2026-11-18T19:57:02-0300 | alertachuva-srv | falha_controlada.sh | ERRO | falha não tratada na linha 14 (código 1): cp "${CONF_DIR}/inexistente.conf" /tmp/alertachuva_teste.conf
+2026-11-18T19:57:02-0300 | alertachuva-srv | monitor.sh | ERRO | configuração inválida: CPU_LIMITE='abc' (esperado inteiro de 1 a 100)
+2026-11-18T20:01:08-0300 | alertachuva-srv | monitor.sh | ERRO | API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: active)
+
+$ tail -n 15 /var/log/alertachuva/app/app.log
+2026-11-18T20:00:35-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:01:09-0300 | INFO | modelo carregado | 6369 dias válidos (2006-08-24 a 2025-04-25) | pid=322
+2026-11-18T20:01:09-0300 | INFO | modelo carregado | 6369 dias válidos (2006-08-24 a 2025-04-25) | pid=320
+2026-11-18T20:01:09-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:01:18-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:01:18-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:01:24-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:01:40-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:01:56-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:02:06-0300 | INFO | 127.0.0.1 GET /api/saude 200
+2026-11-18T20:02:06-0300 | INFO | 127.0.0.1 GET /api/info 200
+2026-11-18T20:02:06-0300 | INFO | 127.0.0.1 GET /api/risco?data=2025-01-24 200
+2026-11-18T20:02:06-0300 | INFO | 127.0.0.1 GET / 200
+2026-11-18T20:02:06-0300 | INFO | 127.0.0.1 HEAD / 200
+2026-11-18T20:02:07-0300 | INFO | 127.0.0.1 GET /api/saude 200
+
+$ tail -n 10 /var/log/nginx/alertachuva_acesso.log
+10.20.30.10 - - [18/Nov/2026:19:55:14 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:19:55:16 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:19:55:17 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:20:01:18 -0300] "GET /api/saude HTTP/1.1" 200 157 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:20:01:18 -0300] "GET /api/saude HTTP/1.1" 200 157 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:20:02:06 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:20:02:06 -0300] "GET /api/info HTTP/1.1" 200 199 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:20:02:06 -0300] "GET /api/risco?data=2025-01-24 HTTP/1.1" 200 376 "-" "curl/8.5.0"
+127.0.0.1 - - [18/Nov/2026:20:02:06 -0300] "GET / HTTP/1.1" 200 2867 "-" "curl/8.5.0"
+10.20.30.10 - - [18/Nov/2026:20:02:06 -0300] "HEAD / HTTP/1.1" 200 0 "-" "curl/8.5.0"
+
+$ journalctl -t alertachuva -n 15 --no-pager
+Nov 18 19:55:15 alertachuva-srv alertachuva[1321]: monitor.sh: API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: inactive)
+Nov 18 19:55:21 alertachuva-srv alertachuva[1476]: monitor.sh: CPU em 91.9% (limite 80%)
+Nov 18 19:55:42 alertachuva-srv alertachuva[1504]: monitor.sh: CPU em 97.4% (limite 80%)
+Nov 18 19:55:58 alertachuva-srv alertachuva[1532]: monitor.sh: CPU em 99.8% (limite 80%)
+Nov 18 19:56:31 alertachuva-srv alertachuva[1607]: monitor.sh: MEMÓRIA em 88.4% (limite 80%)
+Nov 18 19:56:49 alertachuva-srv alertachuva[1638]: monitor.sh: MEMÓRIA em 88.2% (limite 80%)
+Nov 18 19:57:02 alertachuva-srv alertachuva[1699]: testes_falha.sh: TESTE disco: NÃO PASSOU · alerta de disco gerado com limite de teste de 1%
+Nov 18 19:57:02 alertachuva-srv alertachuva[1724]: falha_controlada.sh: falha não tratada na linha 14 (código 1): cp "${CONF_DIR}/inexistente.conf" /tmp/alertachuva_teste.conf
+Nov 18 19:57:02 alertachuva-srv alertachuva[1736]: monitor.sh: configuração inválida: CPU_LIMITE='abc' (esperado inteiro de 1 a 100)
+-- Boot db80fc82c40e44909c05fee4df496afb --
+Nov 18 20:01:08 alertachuva-srv alertachuva[462]: monitor.sh: API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: active)
+
+$ journalctl -u alertachuva-monitor -u alertachuva -n 25 --no-pager
+Nov 18 20:01:18 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:18 -0300] "GET /api/saude HTTP/1.0" 200 157 "-" "curl/8.5.0"
+Nov 18 20:01:18 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:01:18 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:18 -0300] "GET /api/saude HTTP/1.0" 200 157 "-" "curl/8.5.0"
+Nov 18 20:01:24 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:01:24 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:24 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+Nov 18 20:01:24 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:24-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.9% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 20:01:24 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:24-0300 | alertachuva-srv | monitor.sh | OK | API voltou a responder
+Nov 18 20:01:40 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:01:40 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:40 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+Nov 18 20:01:40 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:40-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 20:01:56 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:01:56 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:01:56 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"
+Nov 18 20:01:56 alertachuva-srv alertachuva-monitor[205]: 2026-11-18T20:01:56-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.4% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:02:06 -0300] "GET /api/saude HTTP/1.0" 200 158 "-" "curl/8.5.0"
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/info 200
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:02:06 -0300] "GET /api/info HTTP/1.0" 200 199 "-" "curl/8.5.0"
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/risco?data=2025-01-24 200
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:02:06 -0300] "GET /api/risco?data=2025-01-24 HTTP/1.0" 200 376 "-" "curl/8.5.0"
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET / 200
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:02:06 -0300] "GET / HTTP/1.0" 200 2867 "-" "curl/8.5.0"
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 HEAD / 200
+Nov 18 20:02:06 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:02:06 -0300] "HEAD / HTTP/1.0" 200 0 "-" "curl/8.5.0"
+Nov 18 20:02:07 alertachuva-srv alertachuva-api[322]: 127.0.0.1 GET /api/saude 200
+Nov 18 20:02:07 alertachuva-srv alertachuva-api[322]: 127.0.0.1 - - [18/Nov/2026:20:02:07 -0300] "GET /api/saude HTTP/1.1" 200 158 "-" "curl/8.5.0"

@@ -1,0 +1,30 @@
+# AlertaChuva · evidência gerada em 2026-11-18 20:02:07 -0300 no host alertachuva-srv
+
+$ bash /home/danilo/alertachuva/so/scripts/validar.sh
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | INFO | ==== validação da infraestrutura ====
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ hostname definido como alertachuva-srv · alertachuva-srv
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ IP fixo 10.20.30.10/24 ativo · citizen0         UNKNOWN        10.20.30.10/24 fe80::4cf9:3dff:fef4:509e/64 
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ DNS local: alertachuva.local resolve para 10.20.30.10 · alertachuva.local -> 10.20.30.10
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ DNS externo resolvendo nomes da internet · 4.228.31.150    github.com
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ servidores DNS configurados · search alertachuva.local nameserver 10.255.255.254 nameserver 1.1.1.1 nameserver 8.8.8.8
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ usuários alertachuva, alertachuva-mon e operador (grupo alertachuva-ops) · uid=999(alertachuva) gid=988(alertachuva) groups=988(alertachuva) uid=997(alertachuva-mon) gid=989(alertachuva-ops) groups=989(alertachuva-o
+2026-11-18T20:02:07-0300 | alertachuva-srv | validar.sh | OK | ✔ usuário de serviço alertachuva sem login interativo · shell=/usr/sbin/nologin
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ sudo restrito do grupo alertachuva-ops válido · /etc/sudoers.d/alertachuva: parsed OK
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ permissão do código da API · /opt/alertachuva/app 750 root:alertachuva
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ permissão das variáveis de ambiente · /etc/alertachuva/alertachuva.env 640 root:alertachuva
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ permissão do diretório de logs · /var/log/alertachuva 2751 root:alertachuva-ops
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ ambiente Python com as dependências · flask 3.1.3 | gunicorn 23.0.0 | xgboost-cpu 3.4.1 | pandas 3.1.1
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ alertachuva-rede.service habilitado no boot · enabled
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ alertachuva-rede.service ativo · active
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ alertachuva.service habilitado no boot · enabled
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ alertachuva.service ativo · active
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ alertachuva-monitor.service habilitado no boot · enabled
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ alertachuva-monitor.service ativo · active
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ nginx.service habilitado no boot · enabled
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ nginx.service ativo · active
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ API respondendo via Nginx em http://alertachuva.local/api/saude · {"status":"ok","host":"alertachuva-srv","pid":322}
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ previsão do modelo via http://10.20.30.10/api/risco · {"previsao_para":"2025-01-25","nivel":"ALTO","indice_risco":0.841}
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ página do morador em http://localhost/ · <title>AlertaChuva · Jardim Pantanal</title>
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ monitor registrando verificações periódicas · última há 1s:  VERIFICAÇÃO cpu=0.0% mem=8.5% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | ✔ logs de auditoria, monitor e API existentes ·   188 total
+2026-11-18T20:02:08-0300 | alertachuva-srv | validar.sh | OK | validação: 25/25 verificações OK

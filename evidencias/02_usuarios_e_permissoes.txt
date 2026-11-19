@@ -1,0 +1,57 @@
+# AlertaChuva · evidência gerada em 2026-11-18 20:02:06 -0300 no host alertachuva-srv
+
+$ id alertachuva; id alertachuva-mon; id operador
+uid=999(alertachuva) gid=988(alertachuva) groups=988(alertachuva)
+uid=997(alertachuva-mon) gid=989(alertachuva-ops) groups=989(alertachuva-ops)
+uid=1001(operador) gid=1001(operador) groups=1001(operador),989(alertachuva-ops)
+
+$ getent passwd alertachuva alertachuva-mon operador
+alertachuva:x:999:988:AlertaChuva API:/opt/alertachuva:/usr/sbin/nologin
+alertachuva-mon:x:997:989:AlertaChuva monitor:/var/lib/alertachuva:/usr/sbin/nologin
+operador:x:1001:1001:Operador AlertaChuva:/home/operador:/bin/bash
+
+$ getent group alertachuva-ops alertachuva
+alertachuva-ops:x:989:operador,danilo
+alertachuva:x:988:
+
+$ cat /etc/sudoers.d/alertachuva
+# AlertaChuva · o grupo de operação administra só os serviços do projeto
+Cmnd_Alias ALERTACHUVA_SVC = /usr/bin/systemctl start alertachuva.service, /usr/bin/systemctl stop alertachuva.service, \
+    /usr/bin/systemctl restart alertachuva.service, /usr/bin/systemctl status alertachuva.service, \
+    /usr/bin/systemctl start alertachuva-monitor.service, /usr/bin/systemctl stop alertachuva-monitor.service, \
+    /usr/bin/systemctl restart alertachuva-monitor.service, /usr/bin/systemctl status alertachuva-monitor.service, \
+    /usr/bin/journalctl -u alertachuva.service *, /usr/bin/journalctl -u alertachuva-monitor.service *
+%alertachuva-ops ALL=(root) NOPASSWD: ALERTACHUVA_SVC
+
+$ ls -ld /opt/alertachuva /opt/alertachuva/* /etc/alertachuva /etc/alertachuva/* /var/log/alertachuva /var/log/alertachuva/* /var/lib/alertachuva
+drwxr-xr-x 2 root            root             4096 Nov 18 19:50 /etc/alertachuva
+-rw-r----- 1 root            alertachuva       391 Nov 18 19:50 /etc/alertachuva/alertachuva.env
+-rw-r----- 1 root            alertachuva-ops   293 Nov 18 19:50 /etc/alertachuva/monitor.env
+-rw-r--r-- 1 root            root               66 Nov 18 19:50 /etc/alertachuva/rede.env
+drwxr-xr-x 7 root            root             4096 Nov 18 19:50 /opt/alertachuva
+drwxr-x--- 3 root            alertachuva      4096 Nov 18 19:50 /opt/alertachuva/app
+drwxr-xr-x 3 root            root             4096 Nov 18 19:50 /opt/alertachuva/bin
+drwxr-x--- 2 root            alertachuva      4096 Nov 18 19:50 /opt/alertachuva/dados
+drwxr-x--- 2 root            alertachuva      4096 Nov 18 19:50 /opt/alertachuva/modelo
+drwxr-x--- 5 root            alertachuva      4096 Nov 18 19:50 /opt/alertachuva/venv
+drwxr-x--- 2 alertachuva-mon alertachuva-ops  4096 Nov 18 20:00 /var/lib/alertachuva
+drwxr-s--x 3 root            alertachuva-ops  4096 Nov 18 19:54 /var/log/alertachuva
+-rw-rw---- 1 root            alertachuva-ops   639 Nov 18 20:01 /var/log/alertachuva/alertas.log
+drwxr-s--- 2 alertachuva     alertachuva-ops  4096 Nov 18 19:50 /var/log/alertachuva/app
+-rw-rw---- 1 root            alertachuva-ops  6627 Nov 18 20:01 /var/log/alertachuva/auditoria.log
+-rw-rw---- 1 root            alertachuva-ops   763 Nov 18 20:01 /var/log/alertachuva/erros.log
+-rw-rw---- 1 root            alertachuva-ops  1688 Nov 18 20:01 /var/log/alertachuva/metricas.csv
+-rw-rw---- 1 root            alertachuva-ops  8381 Nov 18 20:01 /var/log/alertachuva/monitor.log
+-rw-rw---- 1 root            alertachuva-ops 30922 Nov 18 19:50 /var/log/alertachuva/provisionamento.log
+-rw-r--r-- 1 root            alertachuva-ops  1290 Nov 18 20:01 /var/log/alertachuva/testes.log
+-rw-r--r-- 1 root            alertachuva-ops  7937 Nov 18 19:52 /var/log/alertachuva/validacao.log
+
+$ runuser -u operador -- sudo -l -n 2>&1 | tail -n 12
+Matching Defaults entries for operador on alertachuva-srv:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User operador may run the following commands on alertachuva-srv:
+    (root) NOPASSWD: /usr/bin/systemctl start alertachuva.service, /usr/bin/systemctl stop alertachuva.service, /usr/bin/systemctl restart alertachuva.service, /usr/bin/systemctl status alertachuva.service, /usr/bin/systemctl start alertachuva-monitor.service, /usr/bin/systemctl stop alertachuva-monitor.service, /usr/bin/systemctl restart alertachuva-monitor.service, /usr/bin/systemctl status alertachuva-monitor.service, /usr/bin/journalctl -u alertachuva.service *, /usr/bin/journalctl -u alertachuva-monitor.service *
+
+$ runuser -u alertachuva -- cat /etc/alertachuva/monitor.env 2>&1 || true
+cat: /etc/alertachuva/monitor.env: Permission denied

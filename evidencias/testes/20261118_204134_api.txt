@@ -1,0 +1,25 @@
+
+==== Derrubar a API (kill -9 e parada) e verificar detecção e recuperação ====
+PID do Gunicorn antes: 5554
+API de volta em ~4s | PID depois: 6818 | reinícios: 1
+{"dias_disponiveis":6369,"host":"alertachuva-srv","modelo":"INMET A701","pid":6819,"servico":"alertachuva-api","status":"ok","uptime_s":0.1,"versao":"1.0.0"}
+
+
+Parada manual para o monitor detectar a falha:
+2026-11-18T20:41:44-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=7.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=falha
+2026-11-18T20:41:44-0300 | alertachuva-srv | monitor.sh | ERRO | API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: inactive)
+código de saída do monitor: 1 (1 = alerta)
+2026-11-18T20:37:18-0300 | alertachuva-srv | monitor.sh | ERRO | API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: inactive)
+2026-11-18T20:41:44-0300 | alertachuva-srv | monitor.sh | ERRO | API sem resposta em http://127.0.0.1:8000/api/saude (serviço alertachuva: inactive)
+2026-11-18T20:41:46-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=9.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T20:41:46-0300 | alertachuva-srv | monitor.sh | OK | API voltou a responder
+monitor: tudo normal
+Nov 18 20:41:37 alertachuva-srv alertachuva-api[6818]: [2026-11-18 20:41:37 -0300] [6818] [INFO] Listening at: http://127.0.0.1:8000 (6818)
+Nov 18 20:41:37 alertachuva-srv alertachuva-api[6819]: [2026-11-18 20:41:37 -0300] [6819] [INFO] Booting worker with pid: 6819
+Nov 18 20:41:37 alertachuva-srv alertachuva-api[6820]: [2026-11-18 20:41:37 -0300] [6820] [INFO] Booting worker with pid: 6820
+Nov 18 20:41:43 alertachuva-srv systemd[1]: Stopped alertachuva.service - AlertaChuva - API web de risco de chuva (Gunicorn + Flask).
+Nov 18 20:41:44 alertachuva-srv systemd[1]: Started alertachuva.service - AlertaChuva - API web de risco de chuva (Gunicorn + Flask).
+Nov 18 20:41:44 alertachuva-srv alertachuva-api[6936]: [2026-11-18 20:41:44 -0300] [6936] [INFO] Listening at: http://127.0.0.1:8000 (6936)
+Nov 18 20:41:44 alertachuva-srv alertachuva-api[6939]: [2026-11-18 20:41:44 -0300] [6939] [INFO] Booting worker with pid: 6939
+Nov 18 20:41:44 alertachuva-srv alertachuva-api[6951]: [2026-11-18 20:41:44 -0300] [6951] [INFO] Booting worker with pid: 6951
+2026-11-18T20:41:46-0300 | alertachuva-srv | testes_falha.sh | OK | TESTE api: PASSOU · pid 5554 -> 6818; parada detectada e serviço retomado

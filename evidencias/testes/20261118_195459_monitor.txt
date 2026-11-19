@@ -1,0 +1,17 @@
+
+==== Interromper o serviço de monitoramento (kill -9) e verificar a recuperação ====
+PID antes: 207
+kill -9 207 enviado às 19:54:59; aguardando o systemd (RestartSec=5)...
+PID depois: 1146 | estado: active | reinícios: 1
+Nov 18 19:54:33 alertachuva-srv alertachuva-monitor[207]: 2026-11-18T19:54:33-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 19:54:50 alertachuva-srv alertachuva-monitor[207]: 2026-11-18T19:54:50-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+Nov 18 19:54:59 alertachuva-srv systemd[1]: alertachuva-monitor.service: Main process exited, code=killed, status=9/KILL
+Nov 18 19:54:59 alertachuva-srv systemd[1]: alertachuva-monitor.service: Failed with result 'signal'.
+Nov 18 19:55:04 alertachuva-srv systemd[1]: alertachuva-monitor.service: Scheduled restart job, restart counter is at 1.
+Nov 18 19:55:04 alertachuva-srv systemd[1]: Started alertachuva-monitor.service - AlertaChuva - monitor de CPU, memoria, disco e saude da API.
+Nov 18 19:55:04 alertachuva-srv alertachuva-monitor[1146]: 2026-11-18T19:55:04-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 1146, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+Nov 18 19:55:05 alertachuva-srv alertachuva-monitor[1146]: 2026-11-18T19:55:05-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:54:50-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.1% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:55:04-0300 | alertachuva-srv | monitor.sh | INFO | monitor iniciado (pid 1146, intervalo 15s, limites cpu=80% mem=80% disco=85%)
+2026-11-18T19:55:05-0300 | alertachuva-srv | monitor.sh | INFO | VERIFICAÇÃO cpu=0.0% mem=8.3% disco[/]=1% disco[/var/log/alertachuva]=1% api=ok
+2026-11-18T19:55:08-0300 | alertachuva-srv | testes_falha.sh | OK | TESTE monitor: PASSOU · pid 207 -> 1146
